@@ -486,3 +486,84 @@ After deploying the service and obtaining the **external IP**, you can test the 
 
 By following these steps, you have successfully deployed the **Staff-Service Microservice** to **Azure Kubernetes Service (AKS)**. The service is now publicly accessible via a **LoadBalancer**, allowing external access for testing and interaction via HTTP requests.
 
+
+# Set Up CI/CD Pipeline (3 Marks)
+
+### Objective:
+The goal is to configure a CI/CD pipeline using **GitHub Actions** to automate the process of building, testing, and deploying the `staff-service` application.
+
+### Steps:
+
+1. **Configure the CI/CD Pipeline**
+
+    - Create a `.github/workflows` directory in your project repository if it does not exist.
+    - In this directory, create a file named `ci_cd.yaml` (or modify the provided file if it already exists).
+
+    The **GitHub Actions workflow** (`ci_cd.yaml`) will define the steps for the CI/CD process:
+    
+    1. **Build**: Build the Docker image.
+    2. **Test**: Run the necessary tests (e.g., unit tests, integration tests).
+    3. **Push**: Push the Docker image to Docker Hub.
+    4. **Deploy**: Deploy the application to the Azure Kubernetes Service (AKS) cluster.
+    
+    Push the **ci_cd.yaml** file to the repository with the commit message: `Adding CI/CD pipeline`.
+
+2. **Set Up Secrets in GitHub**
+
+    GitHub Actions requires several **secrets** for authentication and secure access to Docker Hub and Kubernetes. To add these secrets:
+    
+    - Go to **Settings** > **Secrets and variables** > **Actions** in your GitHub repository.
+    
+    Add the following repository secrets:
+    
+    - **DOCKER_USERNAME**: Your **Docker Hub username**.
+    - **DOCKER_PASSWORD**: Your **Docker Hub password**.
+    - **KUBE_CONFIG_DATA**: The **base64-encoded content** of your Kubernetes configuration file (`kubeconfig`). This is used for authentication with your Kubernetes cluster.
+    
+    To obtain `KUBE_CONFIG_DATA`:
+    
+    1. After connecting to your AKS cluster using `az aks get-credentials`, run the following command:
+       ```bash
+       cat ~/.kube/config | base64 -w 0 > kube_config_base64.txt
+       ```
+    2. Use the **content** of `kube_config_base64.txt` as the value for the **KUBE_CONFIG_DATA** secret in GitHub.
+
+3. **Set Up Environment Variables (Repository Variables)**
+
+    In **GitHub Actions**, set up the following **repository variables** to configure the deployment:
+    
+    - **DOCKER_IMAGE_NAME**: The name of the Docker image that will be built, tagged, and pushed. (Example: `bestbuy-staff-service`).
+    - **DEPLOYMENT_NAME**: The name of the **Kubernetes deployment** to update. (Example: `staff-service-deployment`).
+    - **CONTAINER_NAME**: The name of the **container** within the Kubernetes deployment to update. (Example: `staff-service`).
+    
+    Go to **Settings** > **Secrets and variables** > **Actions** in your GitHub repository and add these environment variables.
+
+---
+
+### Technical Overview of CI/CD Pipeline (ci_cd.yaml):
+
+The `ci_cd.yaml` file will contain multiple stages, including build, test, push, and deploy. Here's a general structure:
+
+- **Build Stage**:
+    - Pulls the Dockerfile.
+    - Builds the Docker image using `docker build`.
+    - Tags the image with the version number.
+
+- **Test Stage**:
+    - Runs the tests using a testing framework (e.g., `pytest`).
+
+- **Push Stage**:
+    - Logs in to Docker Hub using the credentials stored in GitHub Secrets.
+    - Pushes the built Docker image to your Docker Hub repository.
+
+- **Deploy Stage**:
+    - Uses Kubernetes CLI (`kubectl`) to deploy the updated image to the AKS cluster.
+    - Updates the Kubernetes deployment with the new image.
+    - Exposes the application to the internet via a LoadBalancer service.
+
+---
+
+### Conclusion:
+
+By following the above steps, you will have a fully automated CI/CD pipeline that can build, test, push, and deploy the `staff-service` application using GitHub Actions and Azure Kubernetes Service (AKS).
+
