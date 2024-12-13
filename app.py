@@ -39,11 +39,11 @@ staff_data = {
     
     "4": {
         "id": "4",
-        "name": "Thoufeek Baber",
-        "position": "City Manager",
+        "name": "Updated User",
+        "position": "Updated Manager",
         "department": "Management",
-        "email": "tfb.johnson@bestbuy.com",
-        "phone": "000-123-4567"
+        "email": "upd.johnson@bestbuy.com",
+        "phone": "010-123-4567"
     }
 }
 
