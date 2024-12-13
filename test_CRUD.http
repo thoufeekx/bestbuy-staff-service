@@ -1,0 +1,33 @@
+### Create a new staff member
+POST http://localhost:5000/staff
+Content-Type: application/json
+
+{
+  "name": "Michael Scott",
+  "position": "Regional Manager",
+  "department": "Sales",
+  "email": "michael.scott@bestbuy.com",
+  "phone": "555-555-5555"
+}
+
+### Read all staff members
+GET http://localhost:5000/staff
+
+### Read a specific staff member by ID
+GET http://localhost:5000/staff/1
+
+### Update an existing staff member
+PUT http://localhost:5000/staff/2
+Content-Type: application/json
+
+{
+  "id": "2",
+  "name": "Jane Smith",
+  "position": "Customer Service Lead",
+  "department": "Support",
+  "email": "jane.smith@bestbuy.com",
+  "phone": "987-654-3210"
+}
+
+### Delete a staff member
+DELETE http://localhost:5000/staff/3
