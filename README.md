@@ -607,3 +607,122 @@ Trigger the CI/CD workflow to ensure the process works as expected and verify th
 
 4. **Check Deployment**:
    After successful deployment, you can verify that the new user data is available on the live service by accessing the exposed endpoint.
+
+Here’s the README.md file based on your request:
+
+---
+
+# 6. BestBuy Staff Service Microservice
+
+## Overview
+
+The **BestBuy Staff Service** is a RESTful microservice that allows managing staff information within the organization. It supports basic CRUD operations (Create, Read, Update, Delete) for staff data, including details like name, position, department, email, and phone number. The microservice is designed for internal use and does not require a database, as it stores data in memory.
+
+## Functionality
+
+This microservice provides the following CRUD operations through REST APIs:
+
+- **Create** a new staff member
+- **Read** staff details (single or all)
+- **Update** staff information
+- **Delete** a staff member
+
+## Endpoints
+
+### 1. **Create a New Staff Member**
+
+- **Endpoint**: `POST /staff`
+- **Request Body**:
+    ```json
+    {
+        "id": "4",
+        "name": "Updated User",
+        "position": "Updated Manager",
+        "department": "Management",
+        "email": "upd.johnson@bestbuy.com",
+        "phone": "010-123-4567"
+    }
+    ```
+- **Description**: Adds a new staff member to the system.
+
+### 2. **Get All Staff Members**
+
+- **Endpoint**: `GET /staff`
+- **Response**:
+    ```json
+    {
+        "1": { "id": "1", "name": "John Doe", "position": "Manager", "department": "Sales", "email": "john.doe@bestbuy.com", "phone": "123-456-7890" },
+        "2": { "id": "2", "name": "Jane Smith", "position": "Assistant", "department": "Marketing", "email": "jane.smith@bestbuy.com", "phone": "987-654-3210" }
+    }
+    ```
+- **Description**: Retrieves a list of all staff members.
+
+### 3. **Get a Staff Member by ID**
+
+- **Endpoint**: `GET /staff/{id}`
+- **Example**: `GET /staff/1`
+- **Response**:
+    ```json
+    {
+        "id": "1",
+        "name": "John Doe",
+        "position": "Manager",
+        "department": "Sales",
+        "email": "john.doe@bestbuy.com",
+        "phone": "123-456-7890"
+    }
+    ```
+- **Description**: Retrieves information for a specific staff member based on the provided ID.
+
+### 4. **Update Staff Information**
+
+- **Endpoint**: `PUT /staff/{id}`
+- **Request Body**:
+    ```json
+    {
+        "name": "John Doe Updated",
+        "position": "Senior Manager",
+        "department": "Sales",
+        "email": "john.doe.updated@bestbuy.com",
+        "phone": "123-456-7890"
+    }
+    ```
+- **Description**: Updates information for a specific staff member based on the provided ID.
+
+### 5. **Delete a Staff Member**
+
+- **Endpoint**: `DELETE /staff/{id}`
+- **Description**: Deletes a staff member from the system based on the provided ID.
+
+---
+
+## Tasks Completed
+
+1. **Developed the Staff-Service Microservice**:
+   - Created a simple RESTful microservice to manage staff information using Python (Flask).
+   - Implemented CRUD operations for staff data.
+   - Test using `test_CRUD.http`
+
+2. **Containerized the Service**:
+   - Created a Dockerfile and containerized the application.
+   - Pushed the Docker image to Docker Hub.
+
+3. **Deployed the Service to AKS**:
+   - Created an Azure Kubernetes Service (AKS) cluster.
+   - Deployed the microservice on AKS using a Kubernetes deployment YAML file.
+
+4. **Set Up CI/CD Pipeline**:
+   - Configured GitHub Actions for building, testing, and deploying the staff service.
+
+5. **Trigger the CI/CD pipeline**
+
+---
+
+## Technical Issues Encountered
+
+- **Issue with Secrets**: Once the Secret and variables updated in repo and re rerun the jobs it was successfull
+
+- **Docker Hub Password**: Reset Docker hub password to solved the issue.
+
+---
+
