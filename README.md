@@ -215,3 +215,274 @@ The `Dockerfile` was added to the repository and committed with the following me
 ```
 "Adding Dockerfile"
 ```
+
+Certainly! Below is the markdown file with detailed technical documentation and an explanation of each part of the Kubernetes YAML file. The document also includes key comments and technical notes to guide you through the process.
+
+---
+
+
+# 3 Deploy to Azure Kubernetes Service (AKS)
+
+## Overview
+
+This guide walks you through the steps to deploy the **Staff-Service Microservice** to **Azure Kubernetes Service (AKS)**. We will be using a Kubernetes YAML file to define both the **Deployment** and **Service** for the application, exposing it via a **LoadBalancer** to provide a **public endpoint**. This setup allows the microservice to be accessed externally for testing and interacting with CRUD operations.
+
+---
+
+## Steps to Deploy the Service
+
+### 1. **Create AKS Cluster**
+
+Certainly! Below is the markdown documentation for creating an Azure Kubernetes Service (AKS) cluster using the **Azure Portal (UI)**:
+
+---
+
+# Creating an Azure Kubernetes Service (AKS) Cluster via Azure Portal (UI)
+
+## Overview
+
+Azure Kubernetes Service (AKS) is a managed Kubernetes service that simplifies deploying and managing containerized applications using Kubernetes. In this guide, we will walk you through the process of creating an AKS cluster using the **Azure Portal**.
+
+---
+
+## Steps to Create an AKS Cluster via Azure Portal
+
+### 1. **Log in to Azure Portal**
+
+First, log in to the **Azure Portal** using your Azure account credentials.
+
+- Navigate to [https://portal.azure.com](https://portal.azure.com) in your browser.
+- Enter your credentials and click **Sign In**.
+
+---
+
+### 2. **Create a Resource Group**
+
+A **Resource Group** is a container that holds related resources for your Azure solution. It’s a best practice to group your AKS cluster and associated resources together in one resource group.
+
+To create a resource group, follow these steps:
+
+1. In the Azure Portal, click **Create a resource** from the left sidebar.
+2. In the search bar, type **Resource group** and select it from the list.
+3. Click **Create**.
+4. In the **Resource Group** creation page:
+   - **Subscription**: Select your Azure subscription.
+   - **Resource group name**: Enter a name for your resource group (e.g., `my-aks-rg`).
+   - **Region**: Select the region where you want to create your AKS cluster (e.g., `East US`).
+5. Click **Review + Create**, and then click **Create** once the validation passes.
+
+---
+
+### 3. **Create the AKS Cluster**
+
+Once your resource group is created, proceed to create the AKS cluster:
+
+1. In the Azure Portal, click **Create a resource** from the left sidebar.
+2. In the search bar, type **Kubernetes Service** and select it from the list.
+3. Click **Create**.
+4. In the **Create Kubernetes Cluster** page:
+   - **Subscription**: Choose your Azure subscription.
+   - **Resource Group**: Select the resource group you just created.
+   - **Kubernetes Cluster Name**: Enter a name for your AKS cluster (e.g., `my-aks-cluster`).
+   - **Region**: Select the region where your AKS cluster will be deployed (e.g., `East US`).
+   - **Kubernetes version**: Select the version of Kubernetes that you want to use (use the default version unless you have specific version requirements).
+
+---
+
+### 4. **Configure Node Pools**
+
+In this step, you’ll configure the worker nodes for your AKS cluster. Follow these instructions:
+
+1. Under the **Node pools** section:
+   - **Node pool name**: Enter a name for your node pool (e.g., `master`).
+   - **Node size**: Select the size for your nodes (e.g., `Standard_DS2_v4`).
+   - **Node count**: Enter `1` for the number of nodes (you can scale later).
+   - **OS disk size**: Select the disk size (default is 100 GB).
+   
+
+
+### 5. **Review + Create**
+
+Before finalizing the creation of your AKS cluster, review all the settings:
+
+1. Review all the settings for your AKS cluster.
+2. If everything looks correct, click **Create** to start the deployment.
+
+Azure will now create your AKS cluster. The process may take a few minutes.
+
+---
+
+Certainly! Below is the updated section for accessing your AKS cluster using the `az aks get-credentials` command, as you're using the Azure CLI instead of downloading the Kubeconfig from the Azure Portal:
+
+---
+
+### 6. **Access Your AKS Cluster**
+
+Once the AKS cluster has been successfully created, you can access it using the Azure CLI:
+
+1. Open your terminal or command prompt.
+2. Run the following command to get the credentials for your AKS cluster:
+
+   ```bash
+   az aks get-credentials --resource-group finalexam --name <cluster name> --overwrite-existing
+   ```
+
+   - Replace `finalexam` with your resource group name.
+   - Replace `bestbuycluster` with the name of your AKS cluster.
+   - The `--overwrite-existing` flag ensures that if you have any existing configurations, they will be overwritten with the new configuration.
+
+3. Once the credentials are successfully configured, you can verify the connection by running:
+
+   ```bash
+   kubectl get nodes
+   ```
+
+   This will list the nodes in your AKS cluster and confirm that you're connected.
+
+---
+
+This concludes the updated steps for accessing your AKS cluster using the Azure CLI.
+---
+
+### 7. **Verify the Cluster**
+
+You can now verify that your AKS cluster is successfully running:
+
+1. In the **Azure Portal**, go to your AKS cluster page.
+2. Under **Settings**, click **Nodes**.
+3. You should see your node(s) listed here.
+
+---
+
+```bash
+az aks get-credentials --resource-group <resource-group-name> --name <aks-cluster-name>
+```
+
+This will allow you to interact with your AKS cluster from the command line.
+
+---
+
+### 2. **Write the Kubernetes Deployment YAML**
+
+The **Deployment** YAML file defines the specifications for deploying your microservice in Kubernetes. It includes the container image, the number of replicas, and the port configuration. The **Service** YAML part defines how the service will be exposed to the outside world.
+
+Here’s a breakdown of the key sections:
+
+#### Deployment Section
+- **Replicas**: Specifies the number of pod replicas. For simplicity, we are using a single replica.
+- **Selector**: Ensures the Kubernetes system identifies the correct pods based on the labels.
+- **Template**: Defines the pod template, including metadata and the container specifications.
+
+#### Service Section
+- **Selector**: The service uses the label defined in the deployment (`app: staff-service`) to route traffic to the appropriate pods.
+- **Ports**: Defines the ports that will be exposed. Port 80 is exposed externally, and traffic is forwarded to port 5000 inside the container.
+- **Type**: The service type is set to `LoadBalancer` to provision an external IP and expose the service to the public.
+
+---
+
+### 3. **Deploy the YAML File to AKS**
+
+Once the YAML file is ready, apply it to the AKS cluster with the following command:
+
+```bash
+kubectl apply -f staff-service-deployment.yaml
+```
+
+This command will create the necessary resources (Deployment and Service) on the AKS cluster.
+
+---
+
+### 4. **Retrieve the Public IP Address**
+
+Once the service is deployed, you can get the external IP assigned by the LoadBalancer. This can be done by running:
+
+```bash
+kubectl get services
+```
+
+Look for the `EXTERNAL-IP` column under your `staff-service-service`. It may take a few minutes for the IP to be assigned. Once you have the IP, you can use it to access the service publicly.
+
+---
+
+## Explanation of the YAML File
+
+The YAML file is composed of two main sections: **Deployment** and **Service**. Below is a breakdown with comments explaining each part.
+
+### Deployment
+
+```yaml
+apiVersion: apps/v1                # The API version for deployments
+kind: Deployment                   # The kind of resource, which is Deployment
+metadata:
+  name: staff-service-deployment   # Name of the deployment
+spec:
+  replicas: 1                       # Number of pod replicas to run
+  selector:
+    matchLabels:
+      app: staff-service            # Label selector to match the pods for this deployment
+  template:
+    metadata:
+      labels:
+        app: staff-service          # Labels for the pod template, used for identifying pods
+    spec:
+      containers:
+      - name: staff-service         # Name of the container within the pod
+        image: <your-dockerhub-username>/bestbuy-staff-service:latest  # Docker image for the service
+        ports:
+        - containerPort: 5000       # Expose port 5000 inside the container to communicate with the application
+```
+
+#### Key Points:
+- **`apiVersion: apps/v1`**: Specifies the API version for the deployment resource.
+- **`kind: Deployment`**: Specifies the kind of resource we are defining. In this case, it's a `Deployment`, which manages the application pods.
+- **`metadata: name: staff-service-deployment`**: This defines the name of the deployment for identification.
+- **`replicas: 1`**: Ensures that only one replica of the pod is running. You can scale this up later if needed.
+- **`selector: matchLabels: app: staff-service`**: The selector ensures that the deployment manages the pods labeled with `app: staff-service`.
+- **`containerPort: 5000`**: Exposes port 5000 from the container, where the microservice is listening.
+
+---
+
+### Service
+
+```yaml
+apiVersion: v1                     # The API version for services
+kind: Service                       # The kind of resource, which is Service
+metadata:
+  name: staff-service-service       # Name of the service
+spec:
+  selector:
+    app: staff-service              # Match the pods with the label `app: staff-service`
+  ports:
+    - protocol: TCP
+      port: 80                       # Expose port 80 externally
+      targetPort: 5000               # Forward the traffic to port 5000 on the container
+  type: LoadBalancer                 # Expose the service via a LoadBalancer (external IP)
+```
+
+#### Key Points:
+- **`apiVersion: v1`**: Specifies the API version for services.
+- **`kind: Service`**: Specifies the kind of resource being defined, which is a `Service`. This allows the deployment to be accessible from the outside.
+- **`selector: app: staff-service`**: This ensures the service routes traffic to the pods labeled `app: staff-service`.
+- **`port: 80`**: Exposes the service on port 80 for external access.
+- **`targetPort: 5000`**: The traffic on port 80 is forwarded to port 5000 inside the container.
+- **`type: LoadBalancer`**: Configures the service to create an external LoadBalancer and assign a public IP.
+
+---
+
+## Testing the Service
+
+After deploying the service and obtaining the **external IP**, you can test the service using **Send HTTP** or any HTTP client.
+
+1. **Get the public IP**: 
+   ```
+   kubectl get services
+   ```
+
+2. **Test the service**: Use the external IP (e.g., `http://<external-ip>:80`) to test the CRUD operations exposed by the microservice.
+
+---
+
+## Conclusion
+
+By following these steps, you have successfully deployed the **Staff-Service Microservice** to **Azure Kubernetes Service (AKS)**. The service is now publicly accessible via a **LoadBalancer**, allowing external access for testing and interaction via HTTP requests.
+
