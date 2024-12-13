@@ -718,6 +718,24 @@ This microservice provides the following CRUD operations through REST APIs:
 
 ---
 
+# Final Project Tree
+
+```bash
+├── app.py
+├── Dockerfile
+├── images
+│   └── 1.png
+├── kube_config_base64.txt
+├── __pycache__
+│   └── app.cpython-310.pyc
+├── README.md
+├── requirements.txt
+├── staff-service-deployment.yaml
+└── test_CRUD.http
+
+2 directories, 9 files
+```
+
 ## Technical Issues Encountered
 
 - **Issue with Secrets**: Once the Secret and variables updated in repo and re rerun the jobs it was successfull
