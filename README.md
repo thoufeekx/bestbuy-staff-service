@@ -152,3 +152,66 @@ The microservice can be tested with the following sample data for staff:
 This simple **Staff-Service Microservice** offers a scalable, stateless way to manage staff information. By following the **12-factor app** principles and storing configuration in environment variables, this service can easily be deployed and maintained in various cloud environments.
 
 ---
+
+
+# 2. Containerize the Service (4 Marks)
+
+### Dockerizing the Staff-Service Microservice
+
+To make the **Staff-Service Microservice** portable and easily deployable, I containerized the application using Docker. Below are the steps taken:
+
+### 2.1 Docker Image Creation
+
+A `Dockerfile` was created to containerize the **Staff-Service Microservice**. This file contains the instructions for building the Docker image, including setting up the Python environment, installing dependencies, and defining the commands to run the Flask application.
+
+### 2.2 Build the Docker Image
+
+After creating the `Dockerfile`, the following command was used to build the Docker image:
+
+```bash
+docker build -t bestbuy-staff-service .
+```
+
+This command builds the Docker image from the current directory (`.`), tagging it with the name `bestbuy-staff-service`.
+
+### 2.3 Push the Docker Image to Docker Hub
+
+Once the Docker image was built, it was pushed to my personal Docker Hub account for easy access and deployment.
+
+1. **Login to Docker Hub**:
+   
+   ```bash
+   docker login
+   ```
+
+   Enter your Docker Hub credentials to log in.
+
+2. **Tag the Docker Image**:
+
+   ```bash
+   docker tag bestbuy-staff-service <your-dockerhub-username>/bestbuy-staff-service
+   ```
+
+   Replace `<your-dockerhub-username>` with your actual Docker Hub username.
+
+3. **Push the Docker Image**:
+
+   ```bash
+   docker push <your-dockerhub-username>/bestbuy-staff-service
+   ```
+
+   This uploads the image to Docker Hub, where it can be accessed from anywhere.
+
+### 2.4 Docker Hub Link
+
+After pushing the image to Docker Hub, you can access it using the following link. Please replace `<your-dockerhub-username>` with your actual username:
+
+Link to docker hub image: [Docker Hub - bestbuy-staff-service](https://hub.docker.com/repository/docker/thoufeekx/bestbuy-staff-service/general)
+
+### 2.5 Commit the Dockerfile
+
+The `Dockerfile` was added to the repository and committed with the following message:
+
+```
+"Adding Dockerfile"
+```
