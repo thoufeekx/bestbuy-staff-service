@@ -33,6 +33,17 @@ staff_data = {
         "department": "Management",
         "email": "alice.johnson@bestbuy.com",
         "phone": "555-123-4567"
+    },
+
+    #Adding one more data to test CI/CD Trigger
+    
+    "4": {
+        "id": "4",
+        "name": "Thoufeek Baber",
+        "position": "City Manager",
+        "department": "Management",
+        "email": "tfb.johnson@bestbuy.com",
+        "phone": "000-123-4567"
     }
 }
 
