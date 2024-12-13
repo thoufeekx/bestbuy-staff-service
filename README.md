@@ -567,3 +567,43 @@ The `ci_cd.yaml` file will contain multiple stages, including build, test, push,
 
 By following the above steps, you will have a fully automated CI/CD pipeline that can build, test, push, and deploy the `staff-service` application using GitHub Actions and Azure Kubernetes Service (AKS).
 
+
+
+## Test the CI/CD Pipeline (2 Marks)
+
+### Objective:
+Trigger the CI/CD workflow to ensure the process works as expected and verify the progress of the workflow jobs.
+
+### Steps:
+
+1. **Add a New User**:
+   In your `app.py` file, add a new user to the data to test the CI/CD trigger. Here's an example of how the new user can be added:
+   
+   ```python
+   # Adding one more data to test CI/CD Trigger
+   "4": {
+       "id": "4",
+       "name": "Updated User",
+       "position": "Updated Manager",
+       "department": "Management",
+       "email": "upd.johnson@bestbuy.com",
+       "phone": "010-123-4567"
+   }
+   ```
+
+2. **Commit and Push Changes**:
+   Commit the changes made to the `app.py` file and push them to your repository:
+   
+   ```bash
+   git add app.py
+   git commit -m "Testing the triiger CI/CD pipeline"
+   git push origin main
+   ```
+
+3. **Verify the CI/CD Pipeline**:
+   - After pushing the changes, GitHub Actions will automatically trigger the pipeline.
+   - Go to the **Actions** tab in your GitHub repository to view the progress of the workflow jobs.
+   - Verify that the build, test, push, and deploy stages are running successfully.
+
+4. **Check Deployment**:
+   After successful deployment, you can verify that the new user data is available on the live service by accessing the exposed endpoint.
