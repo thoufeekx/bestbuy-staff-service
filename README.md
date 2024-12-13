@@ -68,6 +68,16 @@ The microservice provides the following CRUD operations as RESTful API endpoints
      }
      ```
 
+
+### 12-Factor App Principles Applied
+
+1. **Codebase**: The app uses a single GitHub repository with one codebase deployed across multiple environments.
+2. **Dependencies**: All dependencies are listed in `requirements.txt` to ensure isolation and easy environment setup.
+3. **Config**: Configuration like the port number is stored in the `.env` file, loaded at runtime via `python-dotenv`.
+4. **Backing Services**: No external services are used, but in a real-world scenario, backing services like databases would be configured via environment variables.
+
+---
+
 2. **Read All Staff**
    - **GET** `/staff`
    - Returns a list of all staff members.
@@ -135,6 +145,7 @@ The microservice can be tested with the following sample data for staff:
    - Phone: **555-555-1234**
 
 ---
+
 
 ### Conclusion
 
